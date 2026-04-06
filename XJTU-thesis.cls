@@ -249,11 +249,13 @@
 
 \renewcommand{\CJKglue}{\hskip 0.56pt plus 0.08\baselineskip}
 
+%修
+%图和表段前段后距离
 \setlength{\parindent}{2.1em}
 \setlength{\parskip}{0pt}
-\setlength{\intextsep}{6pt}
+\setlength{\intextsep}{9pt} %图、表的段前段后间距
+%\setlength{\floatsep}{8pt}    % 两个浮动体之间距离
 \setlength{\extrarowheight}{2pt}
-
 \linespread{1.296}
 
 %%% Default fonts for different fonts %%%
@@ -684,8 +686,8 @@
 \RequirePackage{fancyvrb}
 \RequirePackage{fancyhdr}
 
-\setlength{\headheight}{15pt}
-\renewcommand{\headrule}{\hrule height 0.5pt \vspace{0.8pt}\hrule height 0.5pt}
+\setlength{\headheight}{16pt}
+\renewcommand{\headrule}{\hrule height 0.5pt \vspace{0.5pt}\hrule height 0.5pt}
 \renewcommand{\headrulewidth}{0.65pt}
 \renewcommand{\footrulewidth}{0pt}
 
@@ -705,14 +707,21 @@
 \newcounter{subsubparagraph}
 \renewcommand{\thesubsubparagraph}{\Alph{subsubparagraph}}
 
+
+%修
+%调整1-4级标题的段前间距和段后间距，调整1-4级标题的标题与章节编号之间的距离
 \titleformat{\chapter}[block]
-  {\centering\fontsize{16pt}{16pt}\selectfont\thispagestyle{fancy}}{\arabic{chapter}}{1em}{}
+  %{\centering\fontsize{16pt}{16pt}\selectfont\thispagestyle{fancy}}{\arabic{chapter}}{1em}{} %chapter标题段前间距为1em,比如“1 绪论”中，“1”和“绪论”之间的距离
+  {\centering\fontsize{16pt}{16pt}\selectfont\thispagestyle{fancy}}{\arabic{chapter}}{0.8em}{} %调整到0.8em
 \titleformat{\section}[block]
-  {\fontsize{15pt}{15pt}\selectfont}{\arabic{chapter}.\arabic{section}}{3pt}{}
+  %{\fontsize{15pt}{15pt}\selectfont}{\arabic{chapter}.\arabic{section}}{3pt}{}
+  {\fontsize{15pt}{15pt}\selectfont}{\arabic{chapter}.\arabic{section}}{5pt}{} %调整到5pt
 \titleformat{\subsection}[block]
-  {\fontsize{14pt}{14pt}\selectfont}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}{3pt}{}
+  %{\fontsize{14pt}{14pt}\selectfont}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}{3pt}{}
+  {\fontsize{14pt}{14pt}\selectfont}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}{4pt}{}
 \titleformat{\subsubsection}[block]
-  {\fontsize{12pt}{12pt}\selectfont}{\arabic{subsubsection}）}{3pt}{}
+  %{\fontsize{12pt}{12pt}\selectfont}{\arabic{subsubsection}）}{3pt}{}
+  {\fontsize{12pt}{12pt}\selectfont}{\arabic{subsubsection}）}{4pt}{}
 \titleformat{\paragraph}[block]
   {\fontsize{12pt}{12pt}\selectfont}{（\arabic{paragraph}）}{3pt}{}
 \titleformat{\subparagraph}[block]
@@ -720,9 +729,12 @@
 \titleformat{\subsubparagraph}[block]
   {\fontsize{12pt}{12pt}\selectfont}{（\alph{subsubparagraph}）}{3pt}{}
 
-\titlespacing{\chapter}{0pt}{11pt}{14pt}
-\titlespacing{\section}{0pt}{12pt}{6pt}
-\titlespacing{\subsection}{2em}{6pt}{0pt}
+% \titlespacing{\chapter}{0pt}{11pt}{14pt}
+\titlespacing{\chapter}{0pt}{9pt}{14pt} %chapter标题段前间距缩小到9pt
+%\titlespacing{\section}{0pt}{12pt}{6pt} 
+\titlespacing{\section}{0pt}{14pt}{8pt} %二级标题
+%\titlespacing{\subsection}{2em}{6pt}{0pt}
+\titlespacing{\subsection}{2em}{8pt}{0pt} %三级标题
 \titlespacing{\subsubsection}{2em}{4pt}{0pt}
 \titlespacing{\paragraph}{2em}{4pt}{0pt}
 \titlespacing{\subparagraph}{2em}{4pt}{0pt}
@@ -784,15 +796,17 @@
 
 %%% caption %%%
 %%% 浮动体标题 %%%
+%修
+%调整标题与标签之间的距离，比如“表1-1 结构图”，这个“1-1”和“结构图”之间的距离需要调整
 \RequirePackage{caption}
 \RequirePackage[labelformat=simple]{subcaption}
-
+\DeclareCaptionLabelSeparator{mysep}{\hspace{0.6em}} % 调整标签与标题之间的距离
 \captionsetup{
   figurewithin   = chapter,
   justification  = centerlast,
   width          = \textwidth - 42pt,
   font           = {stretch=1.2,small},
-  labelsep       = space,
+  labelsep       = mysep, % 使用自定义的标签分隔符
   aboveskip      = 0pt,
   belowskip      = 0pt,
   figureposition = top,
@@ -813,8 +827,16 @@
 
 \AtBeginDocument{
   \renewcommand\thelstlisting{\arabic{chapter}-\arabic{lstlisting}}
-
 }
+
+%修
+%调整公式段前段后
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{4.5pt}
+  \setlength{\belowdisplayskip}{4.5pt}
+}
+
+
 \renewcommand{\thealgorithm}{\arabic{chapter}-\arabic{algorithm}}
 
 \ifthesis@english
@@ -1069,14 +1091,15 @@
     \renewcommand{\en@theadvisor}{{}}
     \renewcommand{\enasscociateinfo}{{}}
   \fi
-
+%修
+%答辩委员会界面
   \tl_gput_right:Nn \g_dc_tabular_tl {%
     \begin{tblr}{
       width=\textwidth,
       colspec={X[r,b]ll},
       cell{1,2,Y,Z}{1}={r=1,c=3}{l},
       row{1-Z} = {font=\sanhao},
-      rowsep=2.4ex,
+      rowsep=1.3ex, %调整行距
       column{1,3}={leftsep=0pt,rightsep=0pt}
     }
     答辩人：\zh@theauthor & & \\
@@ -1104,6 +1127,8 @@
 }
 \ExplSyntaxOff
 
+
+%修
 \ifthesis@plgck\else
 \renewcommand{\thesiscommittes}{
   \gencommitteelist
@@ -1113,15 +1138,16 @@
   \else
     \pdfbookmark{答辩委员会}{Defense Committee-zh}
   \fi
-  \parbox[t][5mm][t]{\textwidth}{}
+  %\parbox[t][5mm][t]{\textwidth}{}
+  \parbox[t][12mm][t]{\textwidth}{}
   \begin{center}
     \sanhao \bfseries \chinesedegreename 学位论文答辩委员会
   \end{center}
-  \vspace{2\baselineskip}
+  \vspace{1.5\baselineskip}
   \begin{spacing}{2.0}\begin{center}
     \sanhao \bfseries \zh@thetitle
   \end{center}\end{spacing}
-  \vfill
+  \vspace{3\baselineskip}
   \begin{center}
     \defencecommittelist
   \end{center}
@@ -1191,15 +1217,16 @@
   \pagestyle{fancy}
   \fancyhf{}
   \setcounter{page}{1}
-  \fancyhead[CE]{\fontsize{10.5pt}{12.6pt}\selectfont\display@header}
-  \fancyhead[CO]{\fontsize{10.5pt}{12.6pt}\selectfont\nouppercase\leftmark}
+  % \fancyhead[CE]{\fontsize{10.5pt}{12.6pt}\selectfont\display@header}
+  % \fancyhead[CO]{\fontsize{10.5pt}{12.6pt}\selectfont\nouppercase\leftmark}
+  \fancyhead[CE]{\raisebox{0.8mm}[0pt][0pt]{\fontsize{10.5pt}{12.6pt}\selectfont\display@header}} % 页眉的内容和页眉双线之间的距离
+  \fancyhead[CO]{\raisebox{0.8mm}[0pt][0pt]{\fontsize{10.5pt}{12.6pt}\selectfont\nouppercase\leftmark}}
   \fancyfoot[LE,RO]{\fontsize{9pt}{10.8pt}\selectfont\Roman{page}}
   \input{Main_Miscellaneous/abstract_chs}
   \cleardoublepage
   \input{Main_Miscellaneous/abstract_eng}
   \cleardoublepage
 }
-
 
 % %%% table of contents %%%
 % %%% 目录 %%%
@@ -1232,6 +1259,8 @@
   {\cftsubsecpagefont #1}\cftsubsecafterpnum\par
 }
 
+%修
+%目录间距
 \setlength{\cftbeforechapskip}{4pt}
 \setlength{\cftbeforesecskip}{4pt}
 \setlength{\cftbeforesubsecskip}{4pt}
@@ -1242,6 +1271,9 @@
 \cftsetindents{subsubsec}{3em}{3.2em}
 
 % 实在不想这样 但是没办法 手动添加 `声明'
+
+%修
+%改目录的段前段后距离
 \renewcommand\contentsname{目~~~~录}
 \newcommand\tableofchinesecontents{
   \if@twocolumn
@@ -1249,12 +1281,24 @@
   \else
     \@restonecolfalse
   \fi
-  \chapter*{
-    \contentsname
-    \vspace{2.4mm}
-    \@mkboth{
-      \MakeUppercase\contentsname
-    }{\MakeUppercase\contentsname}}
+
+  % \chapter*{
+  %   \contentsname
+  %   \vspace{2.4mm}
+  %   \@mkboth{
+  %     \MakeUppercase\contentsname
+  %   }{\MakeUppercase\contentsname}}
+
+  {
+    \titlespacing*{\chapter}{0pt}{20pt}{11pt}
+    \chapter*{
+      \contentsname
+      \vspace{1mm}
+      \@mkboth{
+        \MakeUppercase\contentsname
+      }{\MakeUppercase\contentsname}}
+  }
+
   \pdfbookmark{目~~~~录}{CONTENTS-zh}
   \@starttoc{toc}
   \if@restonecol\twocolumn\fi
@@ -1269,12 +1313,22 @@
   \else
     \@restonecolfalse
   \fi
-  \chapter*{
-    \engcontentsname
-    \vspace{1.4mm}
-    \@mkboth{
-      \MakeUppercase\engcontentsname
-    }{\MakeUppercase\engcontentsname}}
+  {
+    \titlespacing*{\chapter}{0pt}{14pt}{11pt}
+    \chapter*{
+      \engcontentsname
+      \vspace{1.5mm}
+      \@mkboth{
+        \MakeUppercase\engcontentsname
+      }{\MakeUppercase\engcontentsname}}
+  }
+
+  % \chapter*{
+  %   \engcontentsname
+  %   \vspace{1.4mm}
+  %   \@mkboth{
+  %     \MakeUppercase\engcontentsname
+  %   }{\MakeUppercase\engcontentsname}}
   \pdfbookmark{\engcontentsname}{\engcontentsname}
   \@starttoc{toe}
   \if@restonecol\twocolumn\fi
@@ -1291,15 +1345,35 @@
     \addcontentsline{toe}{#1}{theappendix}#2
 }
 
+% \renewcommand{\thesistableofcontens}{
+%   \fancyfoot[LE,RO]{\fontsize{9pt}{10.8pt}\selectfont\Roman{page}}
+%   \begin{spacing}{1}
+%   \tableofchinesecontents
+%   \clearpage
+%   \tableofengcontents
+%   \cleardoublepage
+%   \end{spacing}
+% }
+
+
+%修
+%中英文目录间距稍有不同
 \renewcommand{\thesistableofcontens}{
   \fancyfoot[LE,RO]{\fontsize{9pt}{10.8pt}\selectfont\Roman{page}}
+
+  % 中文目录
   \begin{spacing}{1}
-  \tableofchinesecontents
-  \clearpage
-  \tableofengcontents
-  \cleardoublepage
+    \tableofchinesecontents
   \end{spacing}
+  \clearpage
+  % 英文目录
+  \begin{spacing}{0.88}   % 这里改成你要的行距
+    \tableofengcontents
+  \end{spacing}
+  \cleardoublepage
 }
+
+
 \def\temp{\relax}
 \let\temp\addcontentsline
 \gdef\addcontentsline{\phantomsection\temp}
@@ -1452,7 +1526,9 @@
   \pagenumbering{arabic}
   \fancyfoot[LE,RO]{\fontsize{9pt}{10.8pt}\selectfont\arabic{page}}
   \pagestyle{fancy}
-  \renewcommand{\chaptermark}[1]{\markboth{{\thechapter}\hspace{0.5em}##1}{}}
+  %\renewcommand{\chaptermark}[1]{\markboth{{\thechapter}\hspace{0.5em}##1}{}} 
+  %页眉中的章节标题与章节名称之间的距离，默认为0.5em，需要增大 
+  \renewcommand{\chaptermark}[1]{\markboth{{\thechapter}\hspace{1.0em}##1}{}}
   \hypersetup{bookmarksdepth=-2}
 }
 
@@ -1541,6 +1617,9 @@
   }
 }
 
+
+%修
+%参考文献行距偏大
 \newcommand{\thesisbibname}{}
 \RenewDocumentCommand {\thesisbibliography} { o } {
   \renewcommand{\thesisbibname}{参考文献}
@@ -1552,7 +1631,9 @@
   \addcontentsline{toc}{chapter}{参考文献}
   \addcontentsline{toe}{chapter}{References}
   \hypersetup{bookmarksdepth=2}
-  \printbibliography[heading=bibliography,title=\thesisbibname,keyword={references},resetnumbers=true]
+  \begin{spacing}{1.2} %在这里调整参数
+    \printbibliography[heading=bibliography,title=\thesisbibname,keyword={references},resetnumbers=true]
+  \end{spacing}
   \pagecheck
 
   \IfNoValueTF {#1} {
